@@ -29,6 +29,7 @@
                     <td>@p.UnitNumber</td>
                     <td>@p.MonthlyRent</td>
                     <td>
+                        <button class="btn btn-sm btn-warning me-1" @onclick="@(() => Detail(p.PropertyID))">Detail</button>
                         <button class="btn btn-sm btn-warning me-1" @onclick="@(() => Edit(p.PropertyID))">Edit</button>
                         <button class="btn btn-sm btn-danger" @onclick="@(() => Delete(p.PropertyID))">Delete</button>
                     </td>
@@ -49,6 +50,7 @@
     void GoToCreate() => nav.NavigateTo("/create-property");
 
     void Edit(int id) => nav.NavigateTo($"/edit-property/{id}");
+    void Detail(int id) => nav.NavigateTo($"/detail-property/{id}");
 
     async Task Delete(int id)
     {
