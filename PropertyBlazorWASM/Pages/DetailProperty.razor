@@ -1,0 +1,48 @@
+﻿@page "/detail-property/{Id:int}"
+@using Microsoft.AspNetCore.Components.Forms
+@using PropertyBlazorWASM.Models
+@using PropertyBlazorWASM.Services
+@inject PropertyService propertyService
+@inject NavigationManager nav
+
+<h3>Edit Property</h3>
+
+
+    <div class="mb-3">
+        <label>Property Name</label>
+    <InputText class="form-control" disabled @bind-Value="property.PropertyName" />
+    </div>
+
+    <div class="mb-3">
+        <label>Address</label>
+    <InputText class="form-control" disabled @bind-Value="property.Address" />
+    </div>
+
+    <div class="mb-3">
+        <label>Unit Number</label>
+    <InputText class="form-control" disabled @bind-Value="property.UnitNumber" />
+    </div>
+
+    <div class="mb-3">
+        <label>Monthly Rent</label>
+    <InputNumber class="form-control" disabled @bind-Value="property.MonthlyRent" />
+    </div>
+
+<button class="btn btn-sm btn-warning me-1" @onclick="@(() => Edit(property.PropertyID))">Edit</button>
+    <button type="button" class="btn btn-secondary ms-1" @onclick="Cancel">Cancel</button>
+
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    Property property = new Property();
+
+    protected override async Task OnInitializedAsync()
+    {
+        property = await propertyService.GetProperty(Id);
+    }
+    void Edit(int id) => nav.NavigateTo($"/edit-property/{id}");
+
+
+    void Cancel() => nav.NavigateTo("/properties");
+}
