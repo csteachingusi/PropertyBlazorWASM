@@ -1,0 +1,58 @@
+﻿@page "/Properties"
+@using PropertyBlazorWASM.Models
+@using PropertyBlazorWASM.Services
+@inject NavigationManager nav
+@inject PropertyService propertyService
+
+<h1>Properties CRUD</h1>
+
+<button class="btn btn-primary mb-2" @onclick="GoToCreate">Add Property</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Unit</th>
+            <th>Rent</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (properties != null)
+        {
+            @foreach (var p in properties)
+            {
+                <tr>
+                    <td>@p.PropertyName</td>
+                    <td>@p.Address</td>
+                    <td>@p.UnitNumber</td>
+                    <td>@p.MonthlyRent</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning me-1" @onclick="@(() => Edit(p.PropertyID))">Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Delete(p.PropertyID))">Delete</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    List<Property> properties;
+
+    protected override async Task OnInitializedAsync()
+    {
+        properties = await propertyService.GetProperties();
+    }
+
+    void GoToCreate() => nav.NavigateTo("/create-property");
+
+    void Edit(int id) => nav.NavigateTo($"/edit-property/{id}");
+
+    async Task Delete(int id)
+    {
+        await propertyService.DeleteProperty(id);
+        properties = await propertyService.GetProperties();
+    }
+}

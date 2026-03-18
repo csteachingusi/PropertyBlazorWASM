@@ -1,5 +1,4 @@
-﻿using PropertyBlazorWASM.Models;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 
 namespace PropertyBlazorWASM.Services
 {
@@ -12,22 +11,22 @@ namespace PropertyBlazorWASM.Services
             _http = http;
         }
 
-        public async Task<List<Property>> GetProperties()
+        public async Task<List<PropertyBlazorWASM.Models.Property>> GetProperties()
         {
-            return await _http.GetFromJsonAsync<List<Property>>("api/properties");
+            return await _http.GetFromJsonAsync<List<PropertyBlazorWASM.Models.Property>>("api/properties");
         }
 
-        public async Task<Property> GetProperty(int id)
+        public async Task<PropertyBlazorWASM.Models.Property> GetProperty(int id)
         {
-            return await _http.GetFromJsonAsync<Property>($"api/properties/{id}");
+            return await _http.GetFromJsonAsync<PropertyBlazorWASM.Models.Property>($"api/properties/{id}");
         }
 
-        public async Task CreateProperty(Property property)
+        public async Task CreateProperty(PropertyBlazorWASM.Models.Property property)
         {
             await _http.PostAsJsonAsync("api/properties", property);
         }
 
-        public async Task UpdateProperty(Property property)
+        public async Task UpdateProperty(PropertyBlazorWASM.Models.Property property)
         {
             await _http.PutAsJsonAsync($"api/properties/{property.PropertyID}", property);
         }
