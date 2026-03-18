@@ -1,0 +1,46 @@
+﻿@page "/create-property"
+@using PropertyBlazorWASM.Models
+@using PropertyBlazorWASM.Services
+@inject PropertyService propertyService
+@inject NavigationManager nav
+
+<h3>Create Property</h3>
+
+<EditForm Model="property" OnValidSubmit="Save">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label>Property Name</label>
+        <InputText class="form-control" @bind-Value="property.PropertyName" />
+    </div>
+
+    <div class="mb-3">
+        <label>Address</label>
+        <InputText class="form-control" @bind-Value="property.Address" />
+    </div>
+
+    <div class="mb-3">
+        <label>Unit Number</label>
+        <InputText class="form-control" @bind-Value="property.UnitNumber" />
+    </div>
+
+    <div class="mb-3">
+        <label>Monthly Rent</label>
+        <InputNumber class="form-control" @bind-Value="property.MonthlyRent" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-secondary ms-1" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    Property property = new Property();
+
+    async Task Save()
+    {
+        await propertyService.CreateProperty(property);
+        nav.NavigateTo("/properties");
+    }
+
+    void Cancel() => nav.NavigateTo("/properties");
+}
